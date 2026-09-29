@@ -23,8 +23,7 @@
   }
 
   /* ---------- Tema ---------- */
-  var mq = window.matchMedia("(prefers-color-scheme: dark)");
-  function currentTheme() { return root.getAttribute("data-theme") || (mq.matches ? "dark" : "light"); }
+  function currentTheme() { return root.getAttribute("data-theme") === "dark" ? "dark" : "light"; }
   function syncThemeColor() {
     var m = document.querySelector('meta[name="theme-color"]');
     if (m) m.setAttribute("content", currentTheme() === "dark" ? "#132523" : "#f7f2ea");
@@ -54,5 +53,4 @@
     y.forEach(function (el) { el.textContent = new Date().getFullYear(); });
   });
 
-  mq.addEventListener && mq.addEventListener("change", syncThemeColor);
 })();
