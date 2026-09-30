@@ -5,12 +5,13 @@ Close Relationships Research Lab · Mersin Üniversitesi
 ## Dosya yapısı
 
 ```
-index.html            Ana sayfa ("Çok yakında")
-assets/site.css       Ortak stil: renk paleti, açık/koyu tema, dil görünürlüğü
-assets/site.js        Ortak davranış: TR/EN geçişi, tema düğmesi
-assets/logo-*.png     Tam logo (açık ve koyu tema sürümleri)
-assets/mark-*.png     Yalnızca sembol (üst bar için)
-assets/favicon.png, assets/apple-touch-icon.png
+index.html     Ana sayfa
+hakkimizda.html  Hakkımızda sayfası (yakiniliskilerlab.com/hakkimizda)
+site.css       Ortak stil: renk paleti, açık/koyu tema, dil görünürlüğü
+site.js        Ortak davranış: TR/EN geçişi, tema düğmesi
+logo-*.png     Tam logo (açık ve koyu tema sürümleri)
+mark-*.png     Yalnızca sembol (üst bar için)
+favicon.png, apple-touch-icon.png
 ```
 
 ## Çift dil nasıl çalışır?
@@ -43,6 +44,8 @@ değiştirilir ve seçim hatırlanır.
 
 `index.html` dosyasını kopyalayıp yeniden adlandırın (ör. `hakkimizda.html`),
 `<main>` içeriğini değiştirin. Üst bar, alt bilgi, dil ve tema kendiliğinden çalışır.
+Yeni sayfayı tüm sayfalardaki `<nav class="site-nav">` menüsüne ekleyin; bulunulan sayfanın
+bağlantısına `aria-current="page"` verin.
 
 ## Alan adı
 
@@ -50,9 +53,9 @@ değiştirilir ve seçim hatırlanır.
 
 ## Ziyaret istatistikleri
 
-GoatCounter kullanılıyor (çerez kullanmaz). Panel: https://yakiniliskilerlab.goatcounter.com
+Cloudflare Web Analytics kullanılıyor (çerez kullanmaz). Panel: Cloudflare → Analytics & Logs → Web Analytics.
 Her yeni sayfanın `<head>` bölümüne şu satır eklenmeli:
 
 ```html
-<script data-goatcounter="https://yakiniliskilerlab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "48c4dcce47294892a5597a2c69c73c7a"}'></script>
 ```
