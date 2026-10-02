@@ -301,3 +301,10 @@ h3 { font-size: 1.02rem; font-weight: 600; color: var(--brand); margin-bottom: 6
   .section { padding: 52px 0; }
   .closing { padding: 32px 24px; }
 }
+
+/* İletişim bağlantıları */
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a, .facts a { text-decoration: none; border-bottom: 1px solid var(--line); }
+.footer-links a:hover, .facts a:hover { color: var(--accent-ink); border-bottom-color: var(--accent); }
+.closing-links { display: flex; flex-direction: column; gap: 12px; }
+.closing-links .ig { width: 100%; }
