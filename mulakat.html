@@ -75,76 +75,72 @@
 </header>
 
 <main class="page">
+<style>
+.bk-hero { padding: 36px 0 22px; }
+.bk-hero h1 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); margin: 10px 0 10px; }
+.bk-hero .lead { max-width: 780px; margin: 0; font-size: 1rem; }
+.bk { padding: 0 0 32px; }
+.bk-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.bk-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px; }
+.bk-card h2 { font-size: 1.35rem; margin: 6px 0 6px; }
+.bk-card .who { font-size: .9rem; color: var(--muted); line-height: 1.45; min-height: 2.9em; }
+.bk-card .who strong { color: var(--brand); font-weight: 600; }
+.slot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.slot:first-of-type { margin-top: 12px; }
+.slot b { display: block; font-weight: 600; color: var(--ink); font-size: 1rem; }
+.slot small { color: var(--muted); font-size: .86rem; }
+.slot .btn { padding: 9px 16px; font-size: .88rem; white-space: nowrap; flex: none; }
+.bk-notes { margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 28px; list-style: none; padding: 16px 22px; border: 1px dashed var(--line); border-radius: 18px; }
+.bk-notes li { font-size: .88rem; color: var(--muted); line-height: 1.45; padding-left: 16px; position: relative; }
+.bk-notes li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.bk-notes a { color: var(--accent-ink); }
+@media (max-width: 720px) { .bk-grid, .bk-notes { grid-template-columns: 1fr; } .bk-card .who { min-height: 0; } }
+</style>
 
-  <section class="page-hero">
+  <section class="bk-hero">
     <div class="wrap">
       <p class="eyebrow"><span data-l="tr">Araştırmacı alımı</span><span data-l="en">Researcher recruitment</span></p>
       <h1><span data-l="tr">Mülakat <em>randevunuzu</em> oluşturun.</span><span data-l="en">Book your <em>interview</em>.</span></h1>
-      <p class="lead"><span data-l="tr">Beklediğimizin çok üzerinde başvuru aldık; teşekkür ederiz. Her adayla görüşebilmek için mülakatları iki güne yaydık: 6 Ekim Salı ve 13 Ekim Salı. Görüşmeler yaklaşık 10 dakika sürer.</span><span data-l="en">We received far more applications than we expected — thank you. To meet every applicant, interviews are spread over two days: Tuesday 6 October and Tuesday 13 October. Each interview takes about 10 minutes.</span></p>
+      <p class="lead"><span data-l="tr">Beklediğimizin çok üzerinde başvuru aldık; teşekkür ederiz. Her adayla görüşebilmek için mülakatları iki güne yaydık. Görüşmeler yaklaşık 10 dakika sürer.</span><span data-l="en">We received far more applications than expected — thank you. To meet every applicant, interviews are spread over two days. Each takes about 10 minutes.</span></p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="bk">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow"><span data-l="tr">Yüz yüze</span><span data-l="en">In person</span></p>
-        <h2><span data-l="tr">Yüz yüze <em>görüşme</em></span><span data-l="en">In-person <em>interview</em></span></h2>
-        <p class="lead" style="margin-top:14px"><span data-l="tr"><strong>Mersin Üniversitesi öğrencileri görüşmeye yüz yüze katılır.</strong> Yer: Mersin Üniversitesi Eğitim Fakültesi, C Blok, 2. kat.</span><span data-l="en"><strong>Mersin University students attend in person.</strong> Venue: Mersin University Faculty of Education, Block C, 2nd floor.</span></p>
-      </div>
-      <div class="grid">
-        <div class="card">
-          <span class="num">01</span>
-          <h3><span data-l="tr">6 Ekim Salı · 08:30–12:00</span><span data-l="en">Tue 6 October · 08:30–12:00</span></h3>
-          <p><span data-l="tr">Yüz yüze, 10 dakikalık saatler.</span><span data-l="en">In person, 10-minute slots.</span></p>
-          <p style="margin-top:16px"><a class="btn" href="https://calendar.app.google/wbuvVzMPKR8tSFLY9" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+      <div class="bk-grid">
+        <div class="bk-card">
+          <p class="eyebrow"><span data-l="tr">Sabah</span><span data-l="en">Morning</span></p>
+          <h2><span data-l="tr">Yüz yüze <em>görüşme</em></span><span data-l="en">In-person <em>interview</em></span></h2>
+          <p class="who"><span data-l="tr"><strong>Mersin Üniversitesi öğrencileri yüz yüze katılır.</strong> Yer: Eğitim Fakültesi, C Blok, 2. kat.</span><span data-l="en"><strong>Mersin University students attend in person.</strong> Venue: Faculty of Education, Block C, 2nd floor.</span></p>
+          <div class="slot">
+            <div><b><span data-l="tr">6 Ekim Salı</span><span data-l="en">Tue 6 October</span></b><small>08:30–12:00 · <span data-l="tr">10 dakikalık saatler</span><span data-l="en">10-minute slots</span></small></div>
+            <a class="btn" href="https://calendar.app.google/wbuvVzMPKR8tSFLY9" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="slot">
+            <div><b><span data-l="tr">13 Ekim Salı</span><span data-l="en">Tue 13 October</span></b><small>08:30–10:30 · <span data-l="tr">10 dakikalık saatler</span><span data-l="en">10-minute slots</span></small></div>
+            <a class="btn" href="https://calendar.app.google/ctxmgfMhhbDx6Cr58" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
         </div>
-        <div class="card">
-          <span class="num">02</span>
-          <h3><span data-l="tr">13 Ekim Salı · 08:30–10:30</span><span data-l="en">Tue 13 October · 08:30–10:30</span></h3>
-          <p><span data-l="tr">Yüz yüze, 10 dakikalık saatler.</span><span data-l="en">In person, 10-minute slots.</span></p>
-          <p style="margin-top:16px"><a class="btn" href="https://calendar.app.google/ctxmgfMhhbDx6Cr58" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Online</p>
-        <h2><span data-l="tr">Online <em>görüşme</em></span><span data-l="en">Online <em>interview</em></span></h2>
-        <p class="lead" style="margin-top:14px"><span data-l="tr">Mersin dışındaki adaylar için. Görüşme Google Meet üzerinden yapılır; bağlantı onay e-postanızda yer alır.</span><span data-l="en">For applicants outside Mersin. The interview is held on Google Meet; the link is in your confirmation email.</span></p>
-      </div>
-      <div class="grid">
-        <div class="card">
-          <span class="num">03</span>
-          <h3><span data-l="tr">6 Ekim Salı · 13:00–18:30</span><span data-l="en">Tue 6 October · 13:00–18:30</span></h3>
-          <p><span data-l="tr">Online, 10 dakikalık saatler.</span><span data-l="en">Online, 10-minute slots.</span></p>
-          <p style="margin-top:16px"><a class="btn" href="https://calendar.app.google/2XXuxUjP43menTq76" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-        </div>
-        <div class="card">
-          <span class="num">04</span>
-          <h3><span data-l="tr">13 Ekim Salı · 13:00–17:00</span><span data-l="en">Tue 13 October · 13:00–17:00</span></h3>
-          <p><span data-l="tr">Online, 10 dakikalık saatler.</span><span data-l="en">Online, 10-minute slots.</span></p>
-          <p style="margin-top:16px"><a class="btn" href="https://calendar.app.google/P212MG171f6CtqPp6" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+        <div class="bk-card">
+          <p class="eyebrow"><span data-l="tr">Öğleden sonra</span><span data-l="en">Afternoon</span></p>
+          <h2><span data-l="tr">Online <em>görüşme</em></span><span data-l="en">Online <em>interview</em></span></h2>
+          <p class="who"><span data-l="tr">Mersin dışındaki adaylar için. Google Meet bağlantısı onay e-postanızda yer alır.</span><span data-l="en">For applicants outside Mersin. The Google Meet link is in your confirmation email.</span></p>
+          <div class="slot">
+            <div><b><span data-l="tr">6 Ekim Salı</span><span data-l="en">Tue 6 October</span></b><small>13:00–18:30 · <span data-l="tr">10 dakikalık saatler</span><span data-l="en">10-minute slots</span></small></div>
+            <a class="btn" href="https://calendar.app.google/2XXuxUjP43menTq76" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <div class="slot">
+            <div><b><span data-l="tr">13 Ekim Salı</span><span data-l="en">Tue 13 October</span></b><small>13:00–17:00 · <span data-l="tr">10 dakikalık saatler</span><span data-l="en">10-minute slots</span></small></div>
+            <a class="btn" href="https://calendar.app.google/P212MG171f6CtqPp6" target="_blank" rel="noopener"><span data-l="tr">Saat seç</span><span data-l="en">Pick a time</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow"><span data-l="tr">Bilmeniz gerekenler</span><span data-l="en">Good to know</span></p>
-        <h2><span data-l="tr">Birkaç <em>not</em></span><span data-l="en">A few <em>notes</em></span></h2>
-      </div>
-      <div class="prose">
-        <p><span data-l="tr">Lütfen yalnızca bir randevu alın ve randevu alırken başvuru formunda kullandığınız e-posta adresini yazın.</span><span data-l="en">Please book only one slot and use the email address you applied with.</span></p>
-        <p><span data-l="tr">13 Ekim sayfaları bugünün tarihiyle açılır; saatleri görmek için takvimden 13 Ekim'i seçin ya da en yakın uygun tarihe gidin.</span><span data-l="en">The 13 October pages open on today's date; pick 13 October in the calendar or jump to the next available date to see the slots.</span></p>
-        <p><span data-l="tr">Randevunuzu oluşturduğunuzda onay e-postası alırsınız. Katılamayacaksanız randevunuzu bu e-postadaki bağlantıdan iptal edip yeni bir saat seçebilirsiniz.</span><span data-l="en">You will receive a confirmation email. If you cannot attend, cancel from that email and pick a new time.</span></p>
-        <p><span data-l="tr">Görüşmeler arka arkaya yapılacağı için saatinizden 5 dakika önce hazır olmanızı rica ederiz. Kısa bir tanışma yapacağız ve başvurunuzda yazdıklarınız üzerine konuşacağız; ayrıca hazırlık gerekmez.</span><span data-l="en">Interviews run back to back, so please be ready 5 minutes early. We will have a short introduction and talk about your application; no preparation is needed.</span></p>
-        <p><span data-l="tr">Uygun saat bulamazsanız ya da bir sorunuz olursa: <a href="mailto:info@yakiniliskilerlab.com">info@yakiniliskilerlab.com</a></span><span data-l="en">If you cannot find a suitable time or have a question: <a href="mailto:info@yakiniliskilerlab.com">info@yakiniliskilerlab.com</a></span></p>
-      </div>
+      <ul class="bk-notes">
+        <li><span data-l="tr">Yalnızca bir randevu alın; başvuruda kullandığınız e-posta adresini yazın.</span><span data-l="en">Book only one slot, using the email you applied with.</span></li>
+        <li><span data-l="tr">13 Ekim sayfaları bugünün tarihiyle açılır; takvimden 13 Ekim'i seçin.</span><span data-l="en">The 13 October pages open on today's date; pick 13 October in the calendar.</span></li>
+        <li><span data-l="tr">Katılamayacaksanız onay e-postasındaki bağlantıdan iptal edip yeni saat seçin.</span><span data-l="en">If you cannot attend, cancel from the confirmation email and pick a new time.</span></li>
+        <li><span data-l="tr">Saatinizden 5 dakika önce hazır olun. Sorularınız için: <a href="mailto:info@yakiniliskilerlab.com">info@yakiniliskilerlab.com</a></span><span data-l="en">Be ready 5 minutes early. Questions: <a href="mailto:info@yakiniliskilerlab.com">info@yakiniliskilerlab.com</a></span></li>
+      </ul>
     </div>
   </section>
 
