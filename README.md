@@ -60,3 +60,9 @@ Her yeni sayfanın `<head>` bölümüne şu satır eklenmeli:
 ```html
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "48c4dcce47294892a5597a2c69c73c7a"}'></script>
 ```
+
+## Stil değişikliklerinden sonra
+
+Tarayıcılar `site.css` ve `site.js` dosyalarını önbellekte tutar. Bu dosyalardan birini değiştirdiğinizde,
+tüm sayfalardaki `site.css?v=…` ve `site.js?v=…` bağlantılarındaki tarihi güncelleyin; böylece ziyaretçiler
+yeni sürümü hemen görür.
