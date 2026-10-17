@@ -308,3 +308,14 @@ h3 { font-size: 1.02rem; font-weight: 600; color: var(--brand); margin-bottom: 6
 .footer-links a:hover, .facts a:hover { color: var(--accent-ink); border-bottom-color: var(--accent); }
 .closing-links { display: flex; flex-direction: column; gap: 12px; }
 .closing-links .ig { width: 100%; }
+
+/* "Yakında" tipi iç sayfalar (Ekibimiz vb.) */
+.soon-page { display: flex; align-items: center; }
+.soon-wrap { width: 100%; padding: 88px 0 96px; }
+.soon-card { max-width: 620px; margin: 0 auto; text-align: center; }
+.soon-card img { width: 96px; height: auto; margin: 0 auto 28px; }
+.soon-card .logo-light { display: block; }
+.soon-card .eyebrow { display: flex; justify-content: center; }
+.soon-card .lead, .soon-card .divider { margin-left: auto; margin-right: auto; }
+.soon-card .cta-row { justify-content: center; }
+@media (max-width: 520px) { .soon-wrap { padding: 56px 0 64px; } }
