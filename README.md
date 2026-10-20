@@ -7,8 +7,9 @@ Close Relationships Research Lab · Mersin Üniversitesi
 ```
 index.html     Ana sayfa
 hakkimizda.html  Hakkımızda sayfası (yakiniliskilerlab.com/hakkimizda)
-ekibimiz.html  Ekibimiz sayfası (yakiniliskilerlab.com/ekibimiz) — laboratuvar direktörü + "yakında" kutusu
-ali-ammar-kurt.jpg  Ekibimiz sayfasındaki portre (800×1000, 4:5)
+ekibimiz.html  Ekibimiz sayfası (yakiniliskilerlab.com/ekibimiz) — direktör, direktör yardımcıları, lisansüstü araştırmacılar, araştırma asistanları
+ali-ammar-kurt.jpg  Direktör portresi (800×1000, 4:5)
+ekip/          Ekip üyelerinin portreleri (600×750, 4:5, yüz hizalı kırpılmış)
 site.css       Ortak stil: renk paleti, açık/koyu tema, dil görünürlüğü
 site.js        Ortak davranış: TR/EN geçişi, tema düğmesi
 logo-*.png     Tam logo (açık ve koyu tema sürümleri)
@@ -67,3 +68,9 @@ Her yeni sayfanın `<head>` bölümüne şu satır eklenmeli:
 Tarayıcılar `site.css` ve `site.js` dosyalarını önbellekte tutar. Bu dosyalardan birini değiştirdiğinizde,
 tüm sayfalardaki `site.css?v=…` ve `site.js?v=…` bağlantılarındaki tarihi güncelleyin; böylece ziyaretçiler
 yeni sürümü hemen görür.
+
+## Ekip üyesi eklemek / güncellemek
+
+`ekibimiz.html` içinde bilgisi henüz gelmeyen üyeler `<article class="member pending">` yer tutucu kartıdır.
+Bilgi geldiğinde bu kart, diğer üyelerdeki gibi fotoğraflı `<article class="member">` kartıyla değiştirilir
+(fotoğraf `ekip/` klasörüne 600×750 olarak eklenir).
