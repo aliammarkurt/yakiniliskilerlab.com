@@ -71,6 +71,7 @@ yeni sürümü hemen görür.
 
 ## Ekip üyesi eklemek / güncellemek
 
-`ekibimiz.html` içinde bilgisi henüz gelmeyen üyeler `<article class="member pending">` yer tutucu kartıdır.
-Bilgi geldiğinde bu kart, diğer üyelerdeki gibi fotoğraflı `<article class="member">` kartıyla değiştirilir
-(fotoğraf `ekip/` klasörüne 600×750 olarak eklenir).
+Her üye `ekibimiz.html` içinde bir `<article class="member">` kartıdır: fotoğraf, unvan, isim, kısa odak satırı
+ve "Devamını oku" ile açılan biyografi (TR + EN). Fotoğraf `ekip/` klasörüne 600×750 (4:5) olarak eklenir.
+Fotoğrafı olmayan üye için `<img>` yerine logolu `<div class="member-ph">…</div>` kullanılır (ör. Selma İnan).
+Direktör yardımcılarının kartlarında ek olarak `<p class="member-role">` etiketi bulunur.
