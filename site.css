@@ -420,3 +420,6 @@ h3 { font-size: 1.02rem; font-weight: 600; color: var(--brand); margin-bottom: 6
 .deputy details summary::after { content: "+"; font-weight: 600; color: var(--accent-ink); }
 .deputy details[open] summary::after { content: "−"; }
 .deputy details p { margin-top: 10px; font-size: .93rem; color: var(--muted); line-height: 1.6; }
+
+/* Üye kartı üstündeki rol etiketi (direktör yardımcıları) */
+.member-role { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--accent-ink); margin-bottom: 6px; }
