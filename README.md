@@ -7,7 +7,8 @@ Close Relationships Research Lab · Mersin Üniversitesi
 ```
 index.html     Ana sayfa
 hakkimizda.html  Hakkımızda sayfası (yakiniliskilerlab.com/hakkimizda)
-ekibimiz.html  Ekibimiz sayfası (yakiniliskilerlab.com/ekibimiz) — şimdilik "yakında" içeriği
+ekibimiz.html  Ekibimiz sayfası (yakiniliskilerlab.com/ekibimiz) — laboratuvar direktörü + "yakında" kutusu
+ali-ammar-kurt.jpg  Ekibimiz sayfasındaki portre (800×1000, 4:5)
 site.css       Ortak stil: renk paleti, açık/koyu tema, dil görünürlüğü
 site.js        Ortak davranış: TR/EN geçişi, tema düğmesi
 logo-*.png     Tam logo (açık ve koyu tema sürümleri)

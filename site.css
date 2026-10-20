@@ -319,3 +319,31 @@ h3 { font-size: 1.02rem; font-weight: 600; color: var(--brand); margin-bottom: 6
 .soon-card .lead, .soon-card .divider { margin-left: auto; margin-right: auto; }
 .soon-card .cta-row { justify-content: center; }
 @media (max-width: 520px) { .soon-wrap { padding: 56px 0 64px; } }
+
+/* Ekibimiz: kişi kartı */
+.person { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 56px; align-items: center; }
+.person-photo img {
+  width: 100%; height: auto; display: block; border-radius: 24px;
+  aspect-ratio: 4 / 5; object-fit: cover; background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.person-role { font-size: .76rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--accent-ink); margin-bottom: 18px; }
+.person-title { font-size: 1rem; color: var(--muted); margin-bottom: 4px; }
+.person-name { font-size: clamp(2.2rem, 4.6vw, 3.4rem); line-height: 1.05; margin-bottom: 24px; }
+.person .divider { max-width: 360px; }
+
+/* Ekibimiz: yakında kutusu */
+.team-soon {
+  max-width: 680px; margin: 0 auto; text-align: center;
+  border: 1.5px dashed var(--line); border-radius: 24px; padding: 48px 32px;
+}
+.team-soon img { width: 64px; height: auto; margin: 0 auto 20px; }
+.team-soon .logo-light { display: block; }
+.team-soon h2 { margin-bottom: 12px; }
+.team-soon p { color: var(--muted); max-width: 480px; margin: 0 auto 24px; }
+
+@media (max-width: 860px) {
+  .person { grid-template-columns: 1fr; gap: 32px; }
+  .person-photo { max-width: 380px; }
+}
+@media (max-width: 520px) { .team-soon { padding: 36px 20px; } }
