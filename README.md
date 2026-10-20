@@ -73,5 +73,5 @@ yeni sürümü hemen görür.
 
 Her üye `ekibimiz.html` içinde bir `<article class="member">` kartıdır: fotoğraf, unvan, isim, kısa odak satırı
 ve "Devamını oku" ile açılan biyografi (TR + EN). Fotoğraf `ekip/` klasörüne 600×750 (4:5) olarak eklenir.
-Fotoğrafı olmayan üye için `<img>` yerine logolu `<div class="member-ph">…</div>` kullanılır (ör. Selma İnan).
+Fotoğrafı olmayan üye için `<img>` yerine logolu `<div class="member-ph">…</div>` kullanılır.
 Direktör yardımcılarının kartlarında ek olarak `<p class="member-role">` etiketi bulunur.
