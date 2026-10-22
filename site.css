@@ -114,7 +114,7 @@ h1 {
   font-size: clamp(2.2rem, 5.2vw, 3.7rem); line-height: 1.08; letter-spacing: -.02em;
   color: var(--brand); margin-bottom: 22px;
 }
-h1 em { font-style: italic; font-weight: 350; color: var(--accent-ink); }
+h1 em { font-style: normal; font-weight: inherit; color: inherit; }
 .lead { font-weight: 300; font-size: clamp(1rem, 1.8vw, 1.15rem); color: var(--muted); max-width: 520px; margin-bottom: 30px; }
 
 .divider { display: flex; align-items: center; gap: 12px; max-width: 520px; margin-bottom: 26px; }
@@ -214,7 +214,7 @@ h2 {
   font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height: 1.15; letter-spacing: -.01em;
   color: var(--brand);
 }
-h2 em { font-style: italic; color: var(--accent-ink); }
+h2 em { font-style: normal; font-weight: inherit; color: inherit; }
 h3 { font-size: 1.02rem; font-weight: 600; color: var(--brand); margin-bottom: 6px; line-height: 1.35; }
 .prose p { font-size: 1.05rem; color: var(--ink); margin-bottom: 1.1em; max-width: 680px; }
 .prose p:last-child { margin-bottom: 0; }
