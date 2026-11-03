@@ -8,10 +8,10 @@
    Kurulum adımları: FIKIR-HAVUZU-KURULUM.md
    ============================================================ */
 export const firebaseConfig = {
-  apiKey: "BURAYA_API_KEY",
-  authDomain: "BURAYA_PROJE_ID.firebaseapp.com",
-  projectId: "BURAYA_PROJE_ID",
-  storageBucket: "BURAYA_PROJE_ID.appspot.com",
-  messagingSenderId: "BURAYA_SENDER_ID",
-  appId: "BURAYA_APP_ID"
+  apiKey: "AIzaSyD71AgycXbj0ezicAgbF2_eaGeh99Twv4Q",
+  authDomain: "yakiniliskilerlab.firebaseapp.com",
+  projectId: "yakiniliskilerlab",
+  storageBucket: "yakiniliskilerlab.firebasestorage.app",
+  messagingSenderId: "287148753402",
+  appId: "1:287148753402:web:a2b537ffdfcfeefc4e6443"
 };
