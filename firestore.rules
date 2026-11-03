@@ -1,0 +1,106 @@
+rules_version = '2';
+
+// ============================================================
+// Fikir Havuzu — Firestore güvenlik kuralları
+// Firebase konsolu → Firestore Database → Rules sekmesine
+// bu dosyanın tamamı yapıştırılıp "Publish" ile yayınlanır.
+//
+// - members/{e-posta}: { name, role: "researcher" | "academic" }
+//   Belge kimliği küçük harfli e-posta adresidir.
+// - ideas/{id}: araştırmacının yazdığı alanlar + "academic" haritası
+// - ideas/{id}/comments/{id}: katkılar ve yorumlar
+// ============================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.email_verified == true;
+    }
+    function myEmail() { return request.auth.token.email.lower(); }
+    function memberDoc() { return /databases/$(database)/documents/members/$(myEmail()); }
+    function isMember() { return signedIn() && exists(memberDoc()); }
+    function isAcademic() { return isMember() && get(memberDoc()).data.role == 'academic'; }
+
+    function str(v, min, max) { return v is string && v.size() >= min && v.size() <= max; }
+
+    // Araştırmacının doldurduğu alanlar
+    function validIdeaText(d) {
+      return str(d.title, 1, 150)
+        && str(d.spark, 1, 6000)
+        && str(d.question, 1, 10000)
+        && str(d.who, 0, 3000)
+        && str(d.benefit, 0, 4000)
+        && str(d.reading, 0, 300)
+        && str(d.links, 0, 3000)
+        && str(d.involvement, 0, 100);
+    }
+
+    // ---------- Üyeler ----------
+    match /members/{email} {
+      // Herkes kendi kaydını okuyabilir (giriş kontrolü için); üyeler listeyi görebilir
+      allow read: if (signedIn() && email == myEmail()) || isMember();
+      // Üye listesini yalnızca akademisyenler yönetir
+      allow create, update: if isAcademic()
+        && email == email.lower()
+        && request.resource.data.keys().hasOnly(['name', 'role'])
+        && str(request.resource.data.name, 1, 120)
+        && request.resource.data.role in ['researcher', 'academic'];
+      // Akademisyen kendi kaydını silemez (kendini dışarıda bırakmasın)
+      allow delete: if isAcademic() && email != myEmail();
+    }
+
+    // ---------- Fikirler ----------
+    match /ideas/{ideaId} {
+      allow read: if isMember();
+
+      allow create: if isMember()
+        && request.resource.data.keys().hasOnly([
+             'title', 'spark', 'question', 'who', 'benefit', 'reading', 'links', 'involvement',
+             'authorUid', 'authorEmail', 'authorName', 'createdAt', 'updatedAt'])
+        && validIdeaText(request.resource.data)
+        && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.authorEmail == myEmail()
+        && str(request.resource.data.authorName, 1, 120)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if
+        // Yazar kendi metnini düzenleyebilir (akademik alanlara dokunamaz)
+        (isMember()
+          && resource.data.authorUid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+               'title', 'spark', 'question', 'who', 'benefit', 'reading', 'links', 'involvement', 'updatedAt'])
+          && validIdeaText(request.resource.data)
+          && request.resource.data.updatedAt == request.time)
+        ||
+        // Akademisyenler yalnızca akademik değerlendirmeyi yazar
+        (isAcademic()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['academic'])
+          && request.resource.data.academic.updatedBy == myEmail()
+          && request.resource.data.academic.updatedAt == request.time);
+
+      // Akademisyenler her fikri, yazar ise henüz değerlendirilmemiş kendi fikrini silebilir
+      allow delete: if isAcademic()
+        || (isMember() && resource.data.authorUid == request.auth.uid && !('academic' in resource.data));
+
+      // ---------- Yorumlar ----------
+      match /comments/{commentId} {
+        allow read: if isMember();
+        allow create: if isMember()
+          && request.resource.data.keys().hasOnly(['text', 'authorUid', 'authorName', 'createdAt'])
+          && str(request.resource.data.text, 1, 5000)
+          && str(request.resource.data.authorName, 1, 120)
+          && request.resource.data.authorUid == request.auth.uid
+          && request.resource.data.createdAt == request.time;
+        allow delete: if isAcademic()
+          || (isMember() && resource.data.authorUid == request.auth.uid);
+      }
+    }
+
+    // Diğer her şey kapalı
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

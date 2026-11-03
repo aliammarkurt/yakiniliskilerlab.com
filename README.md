@@ -7,6 +7,7 @@ Close Relationships Research Lab · Mersin Üniversitesi
 ```
 index.html     Ana sayfa
 hakkimizda.html  Hakkımızda sayfası (yakiniliskilerlab.com/hakkimizda)
+fikir-havuzu.html  Ekip alanı: giriş korumalı Fikir Havuzu (fikir-havuzu.js, fikir-havuzu.css, firebase-config.js, firestore.rules)
 ekibimiz.html  Ekibimiz sayfası (yakiniliskilerlab.com/ekibimiz) — direktör, direktör yardımcıları, lisansüstü araştırmacılar, araştırma asistanları
 ali-ammar-kurt.jpg  Direktör portresi (800×1000, 4:5)
 ekip/          Ekip üyelerinin portreleri (600×750, 4:5, yüz hizalı kırpılmış)
@@ -75,3 +76,9 @@ Her üye `ekibimiz.html` içinde bir `<article class="member">` kartıdır: foto
 ve "Devamını oku" ile açılan biyografi (TR + EN). Fotoğraf `ekip/` klasörüne 600×750 (4:5) olarak eklenir.
 Fotoğrafı olmayan üye için `<img>` yerine logolu `<div class="member-ph">…</div>` kullanılır.
 Direktör yardımcılarının kartlarında ek olarak `<p class="member-role">` etiketi bulunur.
+
+## Fikir Havuzu (ekip alanı)
+
+`yakiniliskilerlab.com/fikir-havuzu` yalnızca ekip üyelerinin girebildiği, fikirlerin paylaşılıp
+akademisyenlerce değerlendirildiği sayfadır. Giriş ve veriler Firebase üzerinden çalışır; üst menüde yer almaz,
+alt bilgideki **Ekip alanı** bağlantısıyla açılır. Kurulum ve kullanım: `FIKIR-HAVUZU-KURULUM.md`.
