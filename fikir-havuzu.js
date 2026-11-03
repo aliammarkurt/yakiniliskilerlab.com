@@ -77,6 +77,8 @@ const SCORES = [
 const en = (list, v) => (list.find((o) => o[0] === v) || [v, v])[1];
 
 /* ---------- Okumalar ---------- */
+// Okumalar sekmesi şimdilik kapalı; açmak için true yapın.
+const SHOW_READINGS = false;
 // Tür kodları veritabanında İngilizce saklanır; ekranda iki dilde gösterilir.
 const KINDS = [["core", "Çekirdek", "Core"], ["current", "Güncel", "Current"], ["optional", "İsteğe bağlı", "Optional"], ["fund", "Fon bakışı", "Funding lens"]];
 const kindOrder = (k) => { const i = KINDS.findIndex((x) => x[0] === k); return i < 0 ? 9 : i; };
@@ -197,7 +199,7 @@ function start() {
     if (!S.member) return renderDenied();
     S.view = "list";
     S.unsub.push(api.watchIdeas((list) => { S.ideas = list; if (S.view !== "form" && !S.academicOpen) render(); }, (e) => renderFatal(e)));
-    S.unsub.push(api.watchReadings((list) => {
+    if (SHOW_READINGS) S.unsub.push(api.watchReadings((list) => {
       S.readings = list.sort((a, b) => (a.meeting - b.meeting) || (kindOrder(a.kind) - kindOrder(b.kind)) || ((a.order || 0) - (b.order || 0)));
       if (S.view === "readings" && !S.readingEdit) render();
     }));
@@ -322,9 +324,9 @@ function render() {
 function renderInner() {
   const tabs = [
     ["list", L("Fikirler", "Ideas") + ` <span class="fh-count">${S.ideas.length}</span>`],
-    ["readings", L("Okumalar", "Readings")],
     ["form", L("Fikir paylaş", "Share an idea")],
   ];
+  if (SHOW_READINGS) tabs.splice(1, 0, ["readings", L("Okumalar", "Readings")]);
   if (isAcademic()) tabs.push(["members", L("Üyeler", "Members")]);
   const active = S.view === "detail" ? "list" : S.view;
 
@@ -547,7 +549,7 @@ function viewForm() {
   const fields = IDEA_FIELDS.map((f) => {
     const label = `<span class="fh-label">${L(f.tr, f.en)}${f.req ? ' <span class="fh-req" aria-hidden="true">*</span>' : ""}${f.opt ? ` <span class="fh-opt">${L("isteğe bağlı", "optional")}</span>` : ""}</span>`;
     const hint = f.htr ? `<span class="fh-hint">${L(f.htr, f.hen)}</span>` : "";
-    if (f.kind === "input" && f.k === "reading") return `<label class="fh-field">${label}<span class="fh-hint">${S.readings.length
+    if (f.kind === "input" && f.k === "reading" && SHOW_READINGS) return `<label class="fh-field">${label}<span class="fh-hint">${S.readings.length
         ? L("Listeden seçebilir ya da kendin yazabilirsin.", "Pick from the list or type your own.")
         : L(f.htr, f.hen)}</span>
       <input name="${f.k}" maxlength="${f.max}" list="fh-reading-list" autocomplete="off" value="${esc(i[f.k])}">
