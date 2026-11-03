@@ -254,3 +254,10 @@
   .fh-reading { grid-template-columns: 1fr; gap: 4px; }
   .fh-reading-tools { margin-left: 0; }
 }
+
+/* Üyeler: toplu ekleme */
+.fh-bulk { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.fh-bulk summary { cursor: pointer; font-weight: 500; color: var(--brand); width: fit-content; }
+.fh-bulk summary:hover { color: var(--accent-ink); }
+.fh-bulk[open] summary { margin-bottom: 14px; }
+.fh-bulk textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }

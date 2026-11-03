@@ -680,6 +680,17 @@ function viewMembers() {
           <select name="role"><option value="researcher">${esc(tl("Araştırmacı", "Researcher"))}</option><option value="academic">${esc(tl("Akademisyen", "Academic"))}</option></select></label>
         <button class="fh-btn" type="submit">${L("Ekle", "Add")}</button>
       </form>
+      <details class="fh-bulk" ${S.bulkOpen ? "open" : ""}>
+        <summary>${L("Toplu ekle", "Add in bulk")}</summary>
+        <form class="fh-form" data-form="bulk">
+          <label class="fh-field"><span class="fh-label">${L("Liste", "List")}</span>
+            <span class="fh-hint">${L("Her satıra bir kişi: <code>Ad Soyad, e-posta</code>. Satırın sonuna <code>, akademisyen</code> yazarsan o kişi akademisyen olarak eklenir. Listede zaten olan adresler atlanır.",
+              "One person per line: <code>Full name, email</code>. Add <code>, academic</code> at the end of a line to add that person as an academic. Addresses already on the list are skipped.")}</span>
+            <textarea name="lines" rows="8" spellcheck="false" placeholder="Ayşe Yılmaz, ayse@ornek.com&#10;Mehmet Demir, mehmet@ornek.com&#10;Elif Kaya, elif@ornek.com, akademisyen"></textarea></label>
+          ${S.bulkMsg ? `<p class="fh-msg">${S.bulkMsg}</p>` : ""}
+          <div class="fh-row"><button class="fh-btn" type="submit">${L("Listeyi ekle", "Add the list")}</button></div>
+        </form>
+      </details>
     </div>
     <div class="fh-table-wrap">
       <table class="fh-table">
@@ -836,6 +847,28 @@ app.addEventListener("submit", async (ev) => {
       if (S.readingEdit === "new") await api.addReading({ ...data, order: Date.now() });
       else await api.updateReading(S.readingEdit, data);
       S.readingEdit = null; render();
+    }
+    else if (kind === "bulk") {
+      // Her satır: Ad Soyad, e-posta[, akademisyen]  (virgül, noktalı virgül ya da sekme)
+      const known = new Set(S.members.map((m) => m.email));
+      const added = [], skipped = [], bad = [];
+      S.bulkOpen = true; S.bulkMsg = "";
+      for (const raw of String(fd.get("lines") || "").split(/\r?\n/)) {
+        const line = raw.trim();
+        if (!line) continue;
+        const parts = line.split(/[,;\t]/).map((x) => x.trim()).filter(Boolean);
+        const email = (parts.find((x) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x)) || "").toLowerCase();
+        const academic = parts.some((x) => /^(akademisyen|academic)$/i.test(x));
+        const name = parts.filter((x) => !/@/.test(x) && !/^(akademisyen|academic|araştırmacı|arastirmaci|researcher)$/i.test(x)).join(" ").slice(0, 120);
+        if (!email || !name) { bad.push(line); continue; }
+        if (known.has(email)) { skipped.push(email); continue; }
+        await api.setMember(email, { name, role: academic ? "academic" : "researcher" });
+        known.add(email); added.push(email);
+      }
+      S.bulkMsg = L(`${added.length} kişi eklendi.`, `${added.length} added.`)
+        + (skipped.length ? " " + L(`${skipped.length} adres zaten listedeydi.`, `${skipped.length} already on the list.`) : "")
+        + (bad.length ? "<br>" + L("Okunamayan satırlar (ad ya da e-posta eksik):", "Lines that couldn't be read (missing name or email):") + "<br>" + bad.map(esc).join("<br>") : "");
+      render();
     }
     else if (kind === "member") {
       const email = String(fd.get("email") || "").trim().toLowerCase();
