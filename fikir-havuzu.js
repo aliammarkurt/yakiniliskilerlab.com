@@ -76,10 +76,47 @@ const SCORES = [
 ];
 const en = (list, v) => (list.find((o) => o[0] === v) || [v, v])[1];
 
+/* ---------- Okumalar ---------- */
+// Tür kodları veritabanında İngilizce saklanır; ekranda iki dilde gösterilir.
+const KINDS = [["core", "Çekirdek", "Core"], ["current", "Güncel", "Current"], ["optional", "İsteğe bağlı", "Optional"], ["fund", "Fon bakışı", "Funding lens"]];
+const kindOrder = (k) => { const i = KINDS.findIndex((x) => x[0] === k); return i < 0 ? 9 : i; };
+const kindL = (k) => { const x = KINDS.find((y) => y[0] === k) || [k, k, k]; return L(esc(x[1]), esc(x[2])); };
+// Kısa etiket: "Toplantı 1 · Cox & Paley (1997)" — künyenin yıl parantezine kadarki kısmı
+const readingShort = (r) => {
+  const m = String(r.citation || "").match(/^(.*?\(\d{4}[a-z]?\))/);
+  let s = m ? m[1] : clip(r.citation, 60);
+  s = s.replace(/,\s*[A-ZÇĞİÖŞÜ]\.(?:\s*[A-ZÇĞİÖŞÜ]\.)*/g, "").replace(/,\s*&/g, " &").replace(/\s+/g, " ").replace(/\s+\(/, " (");
+  return `Toplantı ${r.meeting} · ${s}`;
+};
+
+// İlk 8 haftalık program (Okuma Programı ve Fikir Sistemi dokümanı ile aynı)
+const SEED_READINGS = [
+  [1, "Sistemik temeller", "core", "Cox, M. J., & Paley, B. (1997). Families as systems. Annual Review of Psychology, 48, 243–267.", "https://doi.org/10.1146/annurev.psych.48.1.243"],
+  [1, "Sistemik temeller", "core", "Bronfenbrenner, U. (1986). Ecology of the family as a context for human development: Research perspectives. Developmental Psychology, 22(6), 723–742.", "https://doi.org/10.1037/0012-1649.22.6.723"],
+  [1, "Sistemik temeller", "current", "Sameroff, A. (2010). A unified theory of development: A dialectic integration of nature and nurture. Child Development, 81(1), 6–22.", "https://doi.org/10.1111/j.1467-8624.2009.01378.x"],
+  [1, "Sistemik temeller", "optional", "Watzlawick, P., Beavin, J. H., & Jackson, D. D. (1967). Pragmatics of human communication. W. W. Norton. (Bölüm 2: İletişimin aksiyomları)", ""],
+  [1, "Sistemik temeller", "fund", "TÜBİTAK 1001 programının güncel çağrı metni ve proje değerlendirme ölçütleri", ""],
+  [2, "Aile sistemleri kuramları", "core", "Minuchin, P. (1985). Families and individual development: Provocations from the field of family therapy. Child Development, 56(2), 289–302.", "https://doi.org/10.2307/1129720"],
+  [2, "Aile sistemleri kuramları", "core", "Walsh, F. (2003). Family resilience: A framework for clinical practice. Family Process, 42(1), 1–18.", "https://doi.org/10.1111/j.1545-5300.2003.00001.x"],
+  [2, "Aile sistemleri kuramları", "current", "Calatrava, M., Martins, M. V., Schweer-Collins, M., Duch-Ceballos, C., & Rodríguez-González, M. (2022). Differentiation of self: A scoping review of Bowen Family Systems Theory's core construct. Clinical Psychology Review, 91, 102101.", "https://doi.org/10.1016/j.cpr.2021.102101"],
+  [2, "Aile sistemleri kuramları", "optional", "McCubbin, H. I., & Patterson, J. M. (1983). The family stress process: The Double ABCX Model of family adjustment and adaptation. In H. I. McCubbin, M. Sussman, & J. M. Patterson (Eds.), Social stress and the family (pp. 7–37). Haworth.", ""],
+  [2, "Aile sistemleri kuramları", "optional", "Skowron, E. A., & Friedlander, M. L. (1998). The Differentiation of Self Inventory: Development and initial validation. Journal of Counseling Psychology, 45(3), 235–246.", "https://doi.org/10.1037/0022-0167.45.3.235"],
+  [3, "Bağlanma ve karşılıklı bağımlılık", "core", "Finkel, E. J., Simpson, J. A., & Eastwick, P. W. (2017). The psychology of close relationships: Fourteen core principles. Annual Review of Psychology, 68, 383–411.", "https://doi.org/10.1146/annurev-psych-010416-044038"],
+  [3, "Bağlanma ve karşılıklı bağımlılık", "core", "Rusbult, C. E., & Van Lange, P. A. M. (2003). Interdependence, interaction, and relationships. Annual Review of Psychology, 54, 351–375.", "https://doi.org/10.1146/annurev.psych.54.101601.145059"],
+  [3, "Bağlanma ve karşılıklı bağımlılık", "current", "Fraley, R. C., & Shaver, P. R. (2000). Adult romantic attachment: Theoretical developments, emerging controversies, and unanswered questions. Review of General Psychology, 4(2), 132–154.", "https://doi.org/10.1037/1089-2680.4.2.132"],
+  [3, "Bağlanma ve karşılıklı bağımlılık", "optional", "Hazan, C., & Shaver, P. (1987). Romantic love conceptualized as an attachment process. Journal of Personality and Social Psychology, 52(3), 511–524.", "https://doi.org/10.1037/0022-3514.52.3.511"],
+  [3, "Bağlanma ve karşılıklı bağımlılık", "optional", "Le, B., & Agnew, C. R. (2003). Commitment and its theorized determinants: A meta-analysis of the Investment Model. Personal Relationships, 10(1), 37–57.", "https://doi.org/10.1111/1475-6811.00035"],
+  [4, "Süreç, stres ve diyad", "core", "Karney, B. R., & Bradbury, T. N. (1995). The longitudinal course of marital quality and stability: A review of theory, method, and research. Psychological Bulletin, 118(1), 3–34.", "https://doi.org/10.1037/0033-2909.118.1.3"],
+  [4, "Süreç, stres ve diyad", "core", "Falconier, M. K., Jackson, J. B., Hilpert, P., & Bodenmann, G. (2015). Dyadic coping and relationship satisfaction: A meta-analysis. Clinical Psychology Review, 42, 28–46.", "https://doi.org/10.1016/j.cpr.2015.07.002"],
+  [4, "Süreç, stres ve diyad", "current", "Karney, B. R., & Bradbury, T. N. (2020). Research on marital satisfaction and stability in the 2010s: Challenging conventional wisdom. Journal of Marriage and Family, 82(1), 100–116.", "https://doi.org/10.1111/jomf.12635"],
+  [4, "Süreç, stres ve diyad", "optional", "Laurenceau, J.-P., Barrett, L. F., & Pietromonaco, P. R. (1998). Intimacy as an interpersonal process: The importance of self-disclosure, partner disclosure, and perceived partner responsiveness in interpersonal exchanges. Journal of Personality and Social Psychology, 74(5), 1238–1251.", "https://doi.org/10.1037/0022-3514.74.5.1238"],
+  [4, "Süreç, stres ve diyad", "optional", "Hilpert, P., Randall, A. K., Sorokowski, P., Atkins, D. C., Sorokowska, A., Ahmadi, K., et al. (2016). The associations of dyadic coping and relationship satisfaction vary between and within nations: A 35-nation study. Frontiers in Psychology, 7, 1106.", "https://doi.org/10.3389/fpsyg.2016.01106"],
+];
+
 /* ---------- Durum ---------- */
 let api = null;
 const S = {
-  user: null, member: null, ideas: [], members: [],
+  user: null, member: null, ideas: [], members: [], readings: [], readingEdit: null,
   view: "list", id: null, editId: null, academicOpen: false,
   q: "", fMaturity: "", fPath: "", mine: false,
   unsub: [], unsubComments: null, comments: [],
@@ -125,6 +162,11 @@ async function firebaseApi() {
     addComment: (id, data) => F.addDoc(F.collection(db, "ideas", id, "comments"), { ...data, createdAt: F.serverTimestamp() }),
     deleteComment: (id, cid) => F.deleteDoc(F.doc(db, "ideas", id, "comments", cid)),
 
+    watchReadings: (cb) => F.onSnapshot(F.collection(db, "readings"), (s) => cb(s.docs.map((d) => ({ id: d.id, ...d.data() })))),
+    addReading: (data) => F.addDoc(F.collection(db, "readings"), { ...data, updatedAt: F.serverTimestamp() }),
+    updateReading: (id, data) => F.updateDoc(F.doc(db, "readings", id), { ...data, updatedAt: F.serverTimestamp() }),
+    deleteReading: (id) => F.deleteDoc(F.doc(db, "readings", id)),
+
     watchMembers: (cb) => F.onSnapshot(F.collection(db, "members"), (s) => cb(s.docs.map((d) => ({ email: d.id, ...d.data() })))),
     setMember: (email, data) => F.setDoc(F.doc(db, "members", email), data),
     deleteMember: (email) => F.deleteDoc(F.doc(db, "members", email)),
@@ -155,6 +197,10 @@ function start() {
     if (!S.member) return renderDenied();
     S.view = "list";
     S.unsub.push(api.watchIdeas((list) => { S.ideas = list; if (S.view !== "form" && !S.academicOpen) render(); }, (e) => renderFatal(e)));
+    S.unsub.push(api.watchReadings((list) => {
+      S.readings = list.sort((a, b) => (a.meeting - b.meeting) || (kindOrder(a.kind) - kindOrder(b.kind)) || ((a.order || 0) - (b.order || 0)));
+      if (S.view === "readings" && !S.readingEdit) render();
+    }));
     if (isAcademic()) S.unsub.push(api.watchMembers((list) => { S.members = list; if (S.view === "members") render(); }));
     render();
   });
@@ -276,6 +322,7 @@ function render() {
 function renderInner() {
   const tabs = [
     ["list", L("Fikirler", "Ideas") + ` <span class="fh-count">${S.ideas.length}</span>`],
+    ["readings", L("Okumalar", "Readings")],
     ["form", L("Fikir paylaş", "Share an idea")],
   ];
   if (isAcademic()) tabs.push(["members", L("Üyeler", "Members")]);
@@ -300,6 +347,7 @@ function renderInner() {
   else if (S.view === "detail") v.innerHTML = viewDetail();
   else if (S.view === "form") v.innerHTML = viewForm();
   else if (S.view === "members") v.innerHTML = viewMembers();
+  else if (S.view === "readings") v.innerHTML = viewReadings();
 }
 
 const initials = (n) => String(n || "?").trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
@@ -499,6 +547,11 @@ function viewForm() {
   const fields = IDEA_FIELDS.map((f) => {
     const label = `<span class="fh-label">${L(f.tr, f.en)}${f.req ? ' <span class="fh-req" aria-hidden="true">*</span>' : ""}${f.opt ? ` <span class="fh-opt">${L("isteğe bağlı", "optional")}</span>` : ""}</span>`;
     const hint = f.htr ? `<span class="fh-hint">${L(f.htr, f.hen)}</span>` : "";
+    if (f.kind === "input" && f.k === "reading") return `<label class="fh-field">${label}<span class="fh-hint">${S.readings.length
+        ? L("Listeden seçebilir ya da kendin yazabilirsin.", "Pick from the list or type your own.")
+        : L(f.htr, f.hen)}</span>
+      <input name="${f.k}" maxlength="${f.max}" list="fh-reading-list" autocomplete="off" value="${esc(i[f.k])}">
+      <datalist id="fh-reading-list">${S.readings.map((r) => `<option value="${esc(readingShort(r))}">`).join("")}</datalist></label>`;
     if (f.kind === "input") return `<label class="fh-field">${label}${hint}<input name="${f.k}" maxlength="${f.max}" ${f.req ? "required" : ""} value="${esc(i[f.k])}"></label>`;
     if (f.kind === "textarea") return `<label class="fh-field">${label}${hint}<textarea name="${f.k}" rows="${f.rows}" maxlength="${f.max}" ${f.req ? "required" : ""}>${esc(i[f.k])}</textarea></label>`;
     return `<fieldset class="fh-field fh-fieldset"><legend>${label}</legend>${f.options.map(([tr, e], n) => `
@@ -522,6 +575,94 @@ function viewForm() {
         </div>
       </form>
     </div>`;
+}
+
+/* ---------- Okumalar ---------- */
+function readingForm(r) {
+  const meetings = [...new Set(S.readings.map((x) => x.meeting))];
+  const lastMeeting = meetings.length ? Math.max(...meetings) : 1;
+  const themes = [...new Set(S.readings.map((x) => x.theme).filter(Boolean))];
+  r = r || { meeting: lastMeeting, theme: (S.readings.find((x) => x.meeting === lastMeeting) || {}).theme || "", kind: "core", citation: "", link: "" };
+  return `
+    <form class="fh-form fh-panel fh-reading-form" data-form="reading">
+      <h3>${S.readingEdit === "new" ? L("Okuma ekle", "Add a reading") : L("Okumayı düzenle", "Edit reading")}</h3>
+      <div class="fh-grid-reading">
+        <label class="fh-field"><span class="fh-label">${L("Toplantı no", "Meeting no.")}</span>
+          <input type="number" name="meeting" min="1" max="99" value="${esc(r.meeting)}" required></label>
+        <label class="fh-field"><span class="fh-label">${L("Tema", "Theme")}</span>
+          <input name="theme" maxlength="120" list="fh-themes" value="${esc(r.theme)}">
+          <datalist id="fh-themes">${themes.map((t) => `<option value="${esc(t)}">`).join("")}</datalist></label>
+        <label class="fh-field"><span class="fh-label">${L("Tür", "Type")}</span>
+          <select name="kind">${KINDS.map(([k, tr, e]) => `<option value="${k}" ${r.kind === k ? "selected" : ""}>${esc(tr)} · ${esc(e)}</option>`).join("")}</select></label>
+      </div>
+      <label class="fh-field"><span class="fh-label">${L("Künye", "Citation")}</span>
+        <textarea name="citation" rows="3" maxlength="1000" required>${esc(r.citation)}</textarea>
+        <span class="fh-hint">${L("APA biçiminde tam künye.", "Full APA-style citation.")}</span></label>
+      <label class="fh-field"><span class="fh-label">${L("Bağlantı", "Link")} <span class="fh-opt">${L("isteğe bağlı", "optional")}</span></span>
+        <input type="url" name="link" maxlength="500" value="${esc(r.link)}" placeholder="https://">
+        <span class="fh-hint">${L("DOI bağlantısı ya da metnin paylaşıldığı Google Drive bağlantısı.", "A DOI link or the Google Drive link where the text is shared.")}</span></label>
+      <p class="fh-msg" hidden></p>
+      <div class="fh-row">
+        <button class="fh-btn" type="submit">${L("Kaydet", "Save")}</button>
+        <button class="fh-link" type="button" data-act="reading-cancel">${L("Vazgeç", "Cancel")}</button>
+      </div>
+    </form>`;
+}
+
+function viewReadings() {
+  const ac = isAcademic();
+  const editing = S.readingEdit && S.readingEdit !== "new" ? S.readings.find((r) => r.id === S.readingEdit) : null;
+  const counts = {};
+  S.ideas.forEach((i) => { if (i.reading) counts[i.reading] = (counts[i.reading] || 0) + 1; });
+
+  const groups = [];
+  S.readings.forEach((r) => {
+    let g = groups.find((x) => x.meeting === r.meeting);
+    if (!g) { g = { meeting: r.meeting, theme: r.theme, items: [] }; groups.push(g); }
+    if (!g.theme && r.theme) g.theme = r.theme;
+    g.items.push(r);
+  });
+
+  const item = (r) => {
+    const n = counts[readingShort(r)] || 0;
+    return `
+      <li class="fh-reading${S.readingEdit === r.id ? " is-editing" : ""}">
+        <span class="fh-kind fh-kind-${esc(r.kind)}">${kindL(r.kind)}</span>
+        <div class="fh-reading-body">
+          <p class="fh-cite">${esc(r.citation)}</p>
+          <div class="fh-reading-meta">
+            ${r.link ? `<a class="fh-open" href="${esc(r.link)}" target="_blank" rel="noopener noreferrer">${L("Bağlantıyı aç", "Open link")} <span aria-hidden="true">↗</span></a>` : ""}
+            ${n ? `<span class="fh-muted fh-small">${L(`${n} fikir bu okumadan doğdu`, `${n} idea${n > 1 ? "s" : ""} from this reading`)}</span>` : ""}
+            ${ac ? `<span class="fh-reading-tools">
+              <button class="fh-link fh-small" type="button" data-act="reading-edit" data-rid="${esc(r.id)}">${L("Düzenle", "Edit")}</button>
+              <button class="fh-link fh-danger fh-small" type="button" data-act="reading-delete" data-rid="${esc(r.id)}">${L("Sil", "Delete")}</button></span>` : ""}
+          </div>
+        </div>
+      </li>`;
+  };
+
+  return `
+    <div class="fh-readings-head">
+      <p class="fh-muted">${L("Her toplantıda çekirdek okumaları herkes okur; güncel okumayı sunucular derinlemesine okur, isteğe bağlı okumalar ilgi duyanlar içindir. Bir okuma aklına bir fikir getirirse “Fikir paylaş” sekmesinde o okumayı seçebilirsin.",
+        "Everyone reads the core readings for each meeting; presenters read the current one in depth, and optional readings are for those interested. If a reading sparks an idea, you can pick it in the “Share an idea” tab.")}</p>
+      ${ac && S.readingEdit !== "new" ? `<button class="fh-btn fh-btn-sm" type="button" data-act="reading-new">${L("Okuma ekle", "Add a reading")}</button>` : ""}
+    </div>
+    ${ac && S.readingEdit === "new" ? readingForm(null) : ""}
+    ${ac && editing ? readingForm(editing) : ""}
+    ${groups.length === 0 ? `
+      <div class="fh-empty">
+        <h3>${L("Okuma listesi henüz boş", "The reading list is empty for now")}</h3>
+        ${ac ? `<p class="fh-muted">${L("İlk 8 haftanın 20 okumasını tek seferde yükleyebilir ya da okumaları tek tek ekleyebilirsin.", "You can load the 20 readings of the first 8 weeks at once, or add readings one by one.")}</p>
+          <div class="fh-row" style="justify-content:center">
+            <button class="fh-btn" type="button" data-act="reading-seed">${L("İlk 4 toplantının okumalarını yükle", "Load the first 4 meetings' readings")}</button>
+          </div>`
+        : `<p class="fh-muted">${L("Okumalar eklendiğinde burada toplantılara göre listelenecek.", "Readings will be listed here by meeting once they are added.")}</p>`}
+      </div>`
+    : groups.map((g) => `
+      <section class="fh-meeting">
+        <h3><span class="fh-meeting-no">${L(`Toplantı ${g.meeting}`, `Meeting ${g.meeting}`)}</span>${g.theme ? ` ${esc(g.theme)}` : ""}</h3>
+        <ul class="fh-reading-list">${g.items.map(item).join("")}</ul>
+      </section>`).join("")}`;
 }
 
 /* ---------- Üyeler (akademisyen) ---------- */
@@ -583,7 +724,19 @@ app.addEventListener("click", async (ev) => {
     }
     else if (act === "resend") { await api.resend(); renderVerify(L("Bağlantı tekrar gönderildi.", "The link was sent again.")); }
     else if (act === "signout") { await api.signOut(); }
-    else if (act === "tab") go(b.dataset.v, { editId: null });
+    else if (act === "tab") go(b.dataset.v, { editId: null, readingEdit: null });
+    else if (act === "reading-new") { S.readingEdit = "new"; render(); app.querySelector('[data-form="reading"] [name="citation"]')?.focus(); }
+    else if (act === "reading-edit") { S.readingEdit = b.dataset.rid; render(); app.querySelector('[data-form="reading"]')?.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    else if (act === "reading-cancel") { S.readingEdit = null; render(); }
+    else if (act === "reading-delete") {
+      if (!confirm(tl("Bu okuma listeden silinsin mi?", "Remove this reading from the list?"))) return;
+      await api.deleteReading(b.dataset.rid);
+    }
+    else if (act === "reading-seed") {
+      b.disabled = true;
+      for (const [n, [meeting, theme, kind, citation, link]] of SEED_READINGS.entries())
+        await api.addReading({ meeting, theme, kind, citation, link, order: n, updatedBy: S.user.email });
+    }
     else if (act === "open") openIdea(b.dataset.id);
     else if (act === "edit") go("form", { editId: b.dataset.id });
     else if (act === "academic") { S.academicOpen = true; render(); }
@@ -664,6 +817,26 @@ app.addEventListener("submit", async (ev) => {
         catch (e) { const t = app.querySelector('[data-form="comment"] textarea'); if (t) t.value = text; throw e; }
       }
     }
+    else if (kind === "reading") {
+      const link = String(fd.get("link") || "").trim();
+      const msg = form.querySelector(".fh-msg");
+      if (link && !/^https?:\/\//i.test(link)) {
+        msg.hidden = false;
+        msg.innerHTML = L("Bağlantı http:// ya da https:// ile başlamalı.", "The link must start with http:// or https://.");
+        btn.disabled = false; return;
+      }
+      const data = {
+        meeting: Math.max(1, Math.min(99, parseInt(fd.get("meeting"), 10) || 1)),
+        theme: String(fd.get("theme") || "").trim(),
+        kind: KINDS.some((k) => k[0] === fd.get("kind")) ? fd.get("kind") : "core",
+        citation: String(fd.get("citation") || "").trim(),
+        link, updatedBy: S.user.email,
+      };
+      if (!data.citation) { msg.hidden = false; msg.innerHTML = L("Künye boş olamaz.", "The citation can't be empty."); btn.disabled = false; return; }
+      if (S.readingEdit === "new") await api.addReading({ ...data, order: Date.now() });
+      else await api.updateReading(S.readingEdit, data);
+      S.readingEdit = null; render();
+    }
     else if (kind === "member") {
       const email = String(fd.get("email") || "").trim().toLowerCase();
       await api.setMember(email, { name: String(fd.get("name") || "").trim(), role: fd.get("role") === "academic" ? "academic" : "researcher" });
@@ -677,5 +850,5 @@ app.addEventListener("submit", async (ev) => {
 
 // Dil değişince yalnızca öznitelikteki metinler (placeholder, seçenekler) yenilenir.
 new MutationObserver(() => {
-  if (S.member && (S.view === "list" || S.view === "members")) render();
+  if (S.member && (S.view === "list" || S.view === "members" || (S.view === "readings" && !S.readingEdit))) render();
 }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });

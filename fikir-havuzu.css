@@ -212,3 +212,45 @@
   .fh-comments .fh-form { grid-template-columns: 1fr; }
   .fh-academic { padding: 18px; }
 }
+
+/* ---------- Okumalar ---------- */
+.fh-readings-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 28px; }
+.fh-readings-head p { max-width: 640px; font-size: .95rem; }
+.fh-reading-form { max-width: 760px; }
+.fh-reading-form h3 { margin: 0; }
+.fh-grid-reading { display: grid; grid-template-columns: 120px minmax(0, 1fr) minmax(0, 220px); gap: 14px; }
+.fh-meeting { margin-bottom: 36px; max-width: 860px; }
+.fh-meeting h3 {
+  font-family: "Fraunces", Georgia, serif; font-weight: 400; font-size: 1.45rem; color: var(--brand);
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 4px;
+}
+.fh-meeting-no {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: .74rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .12em; color: var(--accent-ink);
+}
+.fh-reading-list { list-style: none; }
+.fh-reading { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.fh-reading:last-child { border-bottom: 0; }
+.fh-reading.is-editing { opacity: .5; }
+.fh-kind { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 3px; }
+.fh-kind-core { color: var(--brand); }
+.fh-kind-current { color: var(--accent-ink); }
+.fh-reading-body { min-width: 0; }
+.fh-cite { font-size: 1rem; line-height: 1.6; overflow-wrap: anywhere; }
+.fh-reading-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; margin-top: 8px; }
+.fh-open {
+  font-size: .88rem; font-weight: 500; color: var(--brand); text-decoration: none;
+  border-bottom: 1px solid var(--accent); padding-bottom: 1px;
+}
+.fh-open:hover { color: var(--accent-ink); }
+.fh-reading-tools { display: inline-flex; gap: 14px; margin-left: auto; }
+
+@media (max-width: 760px) {
+  .fh-grid-reading { grid-template-columns: 100px minmax(0, 1fr); }
+  .fh-grid-reading > :last-child { grid-column: span 2; }
+}
+@media (max-width: 520px) {
+  .fh-reading { grid-template-columns: 1fr; gap: 4px; }
+  .fh-reading-tools { margin-left: 0; }
+}

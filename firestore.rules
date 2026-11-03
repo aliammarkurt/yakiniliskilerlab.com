@@ -9,6 +9,7 @@ rules_version = '2';
 //   Belge kimliği küçük harfli e-posta adresidir.
 // - ideas/{id}: araştırmacının yazdığı alanlar + "academic" haritası
 // - ideas/{id}/comments/{id}: katkılar ve yorumlar
+// - readings/{id}: okuma listesi (akademisyenler düzenler)
 // ============================================================
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -96,6 +97,23 @@ service cloud.firestore {
         allow delete: if isAcademic()
           || (isMember() && resource.data.authorUid == request.auth.uid);
       }
+    }
+
+    // ---------- Okuma listesi ----------
+    match /readings/{readingId} {
+      allow read: if isMember();
+      allow create, update: if isAcademic()
+        && request.resource.data.keys().hasOnly(['meeting', 'theme', 'kind', 'citation', 'link', 'order', 'updatedBy', 'updatedAt'])
+        && request.resource.data.meeting is int
+        && request.resource.data.meeting >= 1 && request.resource.data.meeting <= 99
+        && str(request.resource.data.theme, 0, 120)
+        && request.resource.data.kind in ['core', 'current', 'optional', 'fund']
+        && str(request.resource.data.citation, 1, 1000)
+        && str(request.resource.data.link, 0, 500)
+        && (request.resource.data.link == '' || request.resource.data.link.matches('https?://.*'))
+        && request.resource.data.updatedBy == myEmail()
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if isAcademic();
     }
 
     // Diğer her şey kapalı
